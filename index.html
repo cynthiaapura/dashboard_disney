@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Green IT Dashboard — Disneyland Paris</title>
-<link rel="icon" href="mickey.png" />
+<link rel="icon" href="logo.png" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -42,24 +42,16 @@
     <div class="dash-block" data-block="stepper">
       <div class="dash-block__handle" title="Glisser pour réorganiser"><span class="grip">⠿⠿</span> Suivi des indicateurs</div>
       <section class="stepper" id="stepper"></section>
-
-      <section class="panel analysis-panel">
-        <div class="panel__header">
-          <div class="panel__title-row"><h2>Analyse des résultats</h2><span class="info-dot" title="Synthèse générée automatiquement à partir du statut de chaque KPI.">?</span></div>
-        </div>
-        <div class="analysis-body" id="analysis-text"></div>
-      </section>
     </div>
 
     <div class="dash-block" data-block="charts">
-      <div class="dash-block__handle" title="Glisser pour réorganiser"><span class="grip">⠿⠿</span> Objectifs &amp; répartition</div>
+      <div class="dash-block__handle" title="Glisser pour réorganiser"><span class="grip">⠿⠿</span> Répartition &amp; analyse</div>
       <div class="panel-grid-2">
-        <section class="panel">
+        <section class="panel analysis-panel">
           <div class="panel__header">
-            <div class="panel__title-row"><h2>Atteinte des objectifs</h2><span class="info-dot" title="% de l'objectif atteint. 100% = cible atteinte.">?</span></div>
-            <span class="sub">% de l'objectif atteint</span>
+            <div class="panel__title-row"><h2>Analyse des résultats</h2><span class="info-dot" title="Synthèse générée automatiquement à partir du statut de chaque KPI.">?</span></div>
           </div>
-          <div class="bar-chart" id="bar-chart"></div>
+          <div class="analysis-body" id="analysis-text"></div>
         </section>
 
         <section class="panel">

@@ -93,7 +93,6 @@ let editingId = null;
 const STEPPER_HUES = ["#3f4f43", "#57695d", "#708677", "#889e90"];
 
 const stepperEl = document.getElementById("stepper");
-const barChartEl = document.getElementById("bar-chart");
 const donutEl = document.getElementById("donut-chart");
 const donutTotalEl = document.getElementById("donut-total");
 const tableBody = document.getElementById("kpi-table-body");
@@ -135,13 +134,6 @@ function kpiNumbers(kpi) {
   }
   const max = niceMax(Math.max(val || 0, obj || 0, seuil || 0) * 1.2);
   return { val, obj, seuil, max };
-}
-
-function attainmentRatio(kpi) {
-  const { val, obj } = kpiNumbers(kpi);
-  if (val === null || obj === null || obj === 0) return null;
-  if (kpi.sens === "hausse") return (val / obj) * 100;
-  return (obj / val) * 100;
 }
 
 /* ---------- Gauge (SVG semicircle with threshold zones) ---------- */
@@ -231,51 +223,6 @@ function renderStepper() {
 
   stepperEl.querySelectorAll(".btn-edit").forEach((b) => b.addEventListener("click", () => openEditModal(b.dataset.id)));
   stepperEl.querySelectorAll(".btn-delete").forEach((b) => b.addEventListener("click", () => deleteKpi(b.dataset.id)));
-}
-
-function renderBarChart() {
-  const list = filteredKpis();
-  if (list.length === 0) {
-    barChartEl.innerHTML = `<div class="empty-state">Aucune donnée.</div>`;
-    return;
-  }
-  // Every KPI is shown as "% of its own objective reached" on a shared 0-150% scale,
-  // so 100% (objective met) always falls at the same spot regardless of the KPI's unit.
-  const SCALE_MAX = 150;
-  const targetPos = (100 / SCALE_MAX) * 100;
-
-  const axis = `
-    <div class="attain-row attain-axis">
-      <div class="attain-label"></div>
-      <div class="attain-axis__track">
-        <span class="attain-axis__tick attain-axis__tick--start">0%</span>
-        <span class="attain-axis__tick attain-axis__tick--target" style="left:${targetPos}%">100% · objectif</span>
-        <span class="attain-axis__tick attain-axis__tick--end">${SCALE_MAX}%</span>
-      </div>
-      <div class="attain-value"></div>
-    </div>
-  `;
-
-  const rows = list
-    .map((kpi) => {
-      const ratio = attainmentRatio(kpi);
-      const s = STATUS[kpi.statut] || STATUS.ok;
-      const displayRatio = ratio === null ? 0 : Math.max(2, Math.min(SCALE_MAX, ratio));
-      const widthPct = (displayRatio / SCALE_MAX) * 100;
-      return `
-      <div class="attain-row">
-        <div class="attain-label">${escapeHtml(kpi.nom)}<span class="dim">${escapeHtml(kpi.dimension)}</span></div>
-        <div class="attain-track">
-          <div class="attain-fill" style="width:${widthPct}%; background:${s.color};"></div>
-          <div class="attain-marker" style="left:${targetPos}%;"></div>
-        </div>
-        <div class="attain-value tabular">${ratio === null ? "—" : Math.round(ratio) + "%"}</div>
-      </div>
-    `;
-    })
-    .join("");
-
-  barChartEl.innerHTML = axis + rows;
 }
 
 function renderDonut() {
@@ -429,7 +376,6 @@ function renderTable() {
 
 function renderAll() {
   renderStepper();
-  renderBarChart();
   renderDonut();
   renderAnalysis();
   renderTable();
@@ -444,7 +390,6 @@ document.getElementById("filters").addEventListener("click", (e) => {
   btn.classList.add("active");
   activeFilter = btn.dataset.filter;
   renderStepper();
-  renderBarChart();
   renderDonut();
   renderAnalysis();
   renderTable();
@@ -455,7 +400,6 @@ document.getElementById("btn-reset").addEventListener("click", () => {
   document.querySelectorAll("#filters .tab").forEach((c) => c.classList.remove("active"));
   document.querySelector('#filters .tab[data-filter="all"]').classList.add("active");
   renderStepper();
-  renderBarChart();
   renderDonut();
   renderAnalysis();
   renderTable();

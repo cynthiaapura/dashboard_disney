@@ -1,0 +1,6 @@
+services:
+  - name: dashboard-disney
+    type: web
+    runtime: static
+    staticPublishPath: ./
+    buildCommand: echo "No build needed"

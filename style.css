@@ -319,6 +319,13 @@ body {
   overflow: hidden;
 }
 
+.panel-grid-2 {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
 .panel__header {
   display: flex;
   align-items: center;
@@ -354,80 +361,6 @@ body {
   cursor: help;
   flex-shrink: 0;
 }
-
-.panel-grid-2 {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: 18px;
-}
-
-/* ---------- Bar chart (attainment) ---------- */
-.bar-chart { padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
-
-.attain-row { display: grid; grid-template-columns: 168px 1fr 56px; align-items: center; gap: 10px; }
-
-.attain-label { font-size: 12px; color: var(--ink); font-weight: 600; line-height: 1.25; }
-.attain-label .dim { display: block; font-size: 10px; font-weight: 700; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.03em; }
-
-.attain-track {
-  position: relative;
-  height: 14px;
-  background: var(--brand-tint);
-  border-radius: 999px;
-  overflow: visible;
-}
-.attain-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.2s ease;
-}
-.attain-marker {
-  position: absolute;
-  top: -6px;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid var(--ink-2);
-  opacity: 0.7;
-  transform: translateX(-50%);
-}
-.attain-value { font-size: 12px; font-weight: 700; text-align: right; }
-
-/* ---------- Attainment axis (shared 0-150% scale) ---------- */
-.attain-axis {
-  padding-bottom: 8px;
-  margin-bottom: 4px;
-  border-bottom: 1px dashed var(--grid);
-}
-.attain-axis__track {
-  position: relative;
-  height: 14px;
-}
-.attain-axis__tick {
-  position: absolute;
-  top: 0;
-  font-size: 10.5px;
-  color: var(--ink-muted);
-  white-space: nowrap;
-}
-.attain-axis__tick--start { left: 0; }
-.attain-axis__tick--end { right: 0; }
-.attain-axis__tick--target {
-  font-weight: 700;
-  color: var(--ink-2);
-  transform: translateX(-50%);
-}
-
-.legend-note {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--ink-muted);
-  padding: 0 18px 14px;
-}
-.legend-note .swatch { width: 12px; height: 2px; background: var(--ink); opacity: 0.3; display: inline-block; }
 
 /* ---------- Donut ---------- */
 .donut-wrap {
@@ -614,6 +547,4 @@ footer {
   .topbar { padding: 14px 16px; }
   .dash { padding: 18px 14px 40px; }
   .form-grid { grid-template-columns: 1fr; }
-  .attain-row { grid-template-columns: 1fr; }
-  .attain-value { text-align: left; }
 }
