@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Green IT Dashboard — Disneyland Paris</title>
+<link rel="icon" href="mickey.png" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <img src="mickey.png" alt="Mickey Mouse — Disneyland Paris" class="topbar__mascot" title="Disneyland Paris" />
+  <div class="topbar__titles">
+    <h1>Green IT Dashboard — Disneyland Paris</h1>
+    <p>Période analysée : T2 2026</p>
+  </div>
+  <div class="topbar__actions">
+    <button class="topbar__btn icon-only" id="btn-info" title="Problématique">ⓘ</button>
+    <button class="topbar__btn" id="btn-reset">↺ Réinitialiser les filtres</button>
+    <div class="topbar__popover" id="info-popover" hidden>
+      <strong>Problématique</strong>
+      Comment le SI de Disneyland Paris peut-il gagner en performance tout en réduisant son empreinte environnementale (Green IT) ?
+    </div>
+  </div>
+</header>
+
+<main class="dash">
+
+  <div class="toolbar">
+    <div class="tabs" id="filters">
+      <button class="tab active" data-filter="all">Tous</button>
+      <button class="tab" data-filter="Technique">Technique</button>
+      <button class="tab" data-filter="Métier">Métier</button>
+      <button class="tab" data-filter="Utilisateur">Utilisateur</button>
+    </div>
+    <button class="btn btn--primary" id="btn-add">+ Ajouter un KPI</button>
+  </div>
+
+  <div class="dash-blocks" id="dash-blocks">
+
+    <div class="dash-block" data-block="stepper">
+      <div class="dash-block__handle" title="Glisser pour réorganiser"><span class="grip">⠿⠿</span> Suivi des indicateurs</div>
+      <section class="stepper" id="stepper"></section>
+
+      <section class="panel analysis-panel">
+        <div class="panel__header">
+          <div class="panel__title-row"><h2>Analyse des résultats</h2><span class="info-dot" title="Synthèse générée automatiquement à partir du statut de chaque KPI.">?</span></div>
+        </div>
+        <div class="analysis-body" id="analysis-text"></div>
+      </section>
+    </div>
+
+    <div class="dash-block" data-block="charts">
+      <div class="dash-block__handle" title="Glisser pour réorganiser"><span class="grip">⠿⠿</span> Objectifs &amp; répartition</div>
+      <div class="panel-grid-2">
+        <section class="panel">
+          <div class="panel__header">
+            <div class="panel__title-row"><h2>Atteinte des objectifs</h2><span class="info-dot" title="% de l'objectif atteint. 100% = cible atteinte.">?</span></div>
+            <span class="sub">% de l'objectif atteint</span>
+          </div>
+          <div class="bar-chart" id="bar-chart"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel__header">
+            <div class="panel__title-row"><h2>Répartition des statuts</h2><span class="info-dot" title="Nombre de KPI par statut de pilotage.">?</span></div>
+            <span class="sub" id="donut-total"></span>
+          </div>
+          <div class="donut-wrap" id="donut-chart"></div>
+        </section>
+      </div>
+    </div>
+
+    <div class="dash-block" data-block="table">
+      <div class="dash-block__handle" title="Glisser pour réorganiser"><span class="grip">⠿⠿</span> Fiches KPI — détail</div>
+      <section class="panel table-panel">
+        <div class="panel__header">
+          <div class="panel__title-row"><h2>Fiches KPI — détail</h2><span class="info-dot" title="Détail complet de chaque indicateur de la démarche Green IT.">?</span></div>
+        </div>
+        <div class="table-wrap">
+          <table id="kpi-table">
+            <thead>
+              <tr>
+                <th>Indicateur</th>
+                <th>Dimension</th>
+                <th>Valeur actuelle</th>
+                <th>Objectif</th>
+                <th>Seuil d'alerte</th>
+                <th>Fréquence</th>
+                <th>Statut</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="kpi-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>Green IT Dashboard — Disneyland Paris · Données stockées localement dans le navigateur · <span id="footer-date"></span></footer>
+
+<!-- Modal: add / edit KPI -->
+<div class="modal-overlay" id="modal-overlay" hidden>
+  <div class="modal">
+    <h2 id="modal-title">Ajouter un KPI</h2>
+    <form id="kpi-form">
+      <input type="hidden" id="kpi-id" />
+      <div class="form-grid">
+        <div class="full">
+          <label for="nom">Nom de l'indicateur</label>
+          <input type="text" id="nom" required placeholder="Ex : Taux d'obsolescence applicative" />
+        </div>
+
+        <div>
+          <label for="dimension">Dimension</label>
+          <select id="dimension">
+            <option value="Technique">Technique</option>
+            <option value="Métier">Métier</option>
+            <option value="Utilisateur">Utilisateur</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="frequence">Fréquence de suivi</label>
+          <input type="text" id="frequence" placeholder="Ex : Trimestrielle" />
+        </div>
+
+        <div>
+          <label for="valeurActuelle">Valeur actuelle</label>
+          <input type="text" id="valeurActuelle" required placeholder="Ex : 28%" />
+        </div>
+
+        <div>
+          <label for="objectifCible">Objectif cible</label>
+          <input type="text" id="objectifCible" required placeholder="Ex : < 15%" />
+        </div>
+
+        <div>
+          <label for="seuilAlerte">Seuil d'alerte (valeur numérique)</label>
+          <input type="text" id="seuilAlerte" placeholder="Ex : 25%" />
+        </div>
+
+        <div>
+          <label for="sens">Sens d'amélioration</label>
+          <select id="sens">
+            <option value="baisse">Plus bas = mieux</option>
+            <option value="hausse">Plus haut = mieux</option>
+          </select>
+        </div>
+
+        <div class="full">
+          <label for="statut">Statut</label>
+          <select id="statut">
+            <option value="ok">🟢 Conforme</option>
+            <option value="warn">🟠 Vigilance</option>
+            <option value="alert">🔴 Alerte</option>
+          </select>
+          <p class="suggestion" id="statut-suggestion"></p>
+        </div>
+
+        <div class="full">
+          <label for="formule">Formule / mode de calcul</label>
+          <textarea id="formule" placeholder="Ex : (Nb applications obsolètes / Nb total d'applications) x 100"></textarea>
+        </div>
+
+        <div class="full">
+          <label for="source">Source de la donnée</label>
+          <textarea id="source" placeholder="Ex : Inventaire applicatif de la DSI"></textarea>
+        </div>
+
+        <div class="full">
+          <label for="commentaire">Analyse / commentaire</label>
+          <textarea id="commentaire" placeholder="Analyse libre sur l'évolution de l'indicateur"></textarea>
+        </div>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--ghost" id="btn-cancel">Annuler</button>
+        <button type="submit" class="btn btn--primary">Enregistrer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
